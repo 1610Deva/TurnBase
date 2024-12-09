@@ -16,6 +16,8 @@
 *.out
 *.app
 
+game
+
 # Debug files
 *.dSYM/
 *.dmp
