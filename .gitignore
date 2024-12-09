@@ -1,0 +1,62 @@
+# Compiled object files
+*.o
+*.obj
+
+# Compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled static libraries
+*.lib
+*.a
+
+# Executable files
+*.exe
+*.out
+*.app
+
+# Debug files
+*.dSYM/
+*.dmp
+
+# Build directories
+build/
+cmake-build-*/
+
+# IDE and editor files
+*.log
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+
+# macOS-specific files
+.DS_Store
+
+# Windows-specific files
+Thumbs.db
+desktop.ini
+
+# Visual Studio Code files
+.vscode/
+
+# CLion IDE files
+.idea/
+cmake-build-debug/
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+
+# Coverage reports
+*.gcda
+*.gcno
+*.gcov
+
+# Other generated files
+*.generated.*
+*.tmp.*
