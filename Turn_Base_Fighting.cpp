@@ -13,18 +13,6 @@ struct Character {
   int mana;
 };
 
-void ClearScreen() { cout << string(100, '\n'); }
-
-void makeFullscreen() {
-  for (int i = 0; i < 100; ++i) {
-    for (int j = 0; j < 100; ++j) {
-      cout << " ";
-    }
-    cout << "\n";
-  }
-  cout.flush();
-}
-
 void displayStats(const Character& player, const Character& opponent) {
   cout << "\n-- " << player.name << " Stats --\n";
   cout << "Health: " << player.health << "\n";
@@ -41,7 +29,7 @@ void criticalHit(Character& attacker, Character& defender) {
   int damage = max(0, attacker.attack - defender.defense) * 2;
   defender.health -= damage;
   cout << attacker.name << " lands a critical hit for " << damage
-      << " damage!\n";
+       << " damage!\n";
 }
 
 void attack(Character& attacker, Character& defender) {
@@ -202,27 +190,28 @@ void opponentTurn(Character& opponent, Character& player) {
   int choice = randomInRange(0, 2);
 
   if (opponent.name == "Orc" && opponent.health < 30) {
-    if (opponent.mana < 10) {
-      choice = randomInRange(0, 1);
-      if (choice == 0) {
-        critChance(opponent, player);
-      } else {
-        opponent.defense += 5;
-        cout << opponent.name << " raises their defense!\n";
-      }
-      return;
-    }
     if (choice == 0) {
       Heal(opponent);
       return;
     } else {
-      if (choice == 0) {
-        critChance(opponent, player);
-      } else {
-        opponent.defense += 5;
-        cout << opponent.name << " raises their defense!\n";
-      }
+      critChance(opponent, player);
     }
+  } else if (opponent.name == "Bhuto" && opponent.health < 20) {
+    if (choice == 0) {
+      Heal(opponent);
+      return;
+    } else {
+      critChance(opponent, player);
+    }
+  } else if (opponent.name == "Skeleton" && opponent.health < 40) {
+    if (choice == 0) {
+      Heal(opponent);
+      return;
+    } else {
+      critChance(opponent, player);
+    }
+  } else {
+    critChance(opponent, player);
   }
 
   if (opponent.name == "Goblin" && opponent.health < 20) {
@@ -249,24 +238,21 @@ void RandomOpponent(Character& opponent) {
     opponent.mana = 30;
     opponent.attack = 15;
     opponent.defense = 5;
-  }
-  else if(randomenemy > 10 && randomenemy < 20) {
+  } else if (randomenemy > 10 && randomenemy < 20) {
     opponent.name = "Bhuto";
     opponent.health = 50;
     opponent.fullhealth = 50;
     opponent.mana = 20;
     opponent.attack = 10;
     opponent.defense = 5;
-  }
-  else if(randomenemy > 20 && randomenemy < 40) {
+  } else if (randomenemy > 20 && randomenemy < 40) {
     opponent.name = "Skeleton";
     opponent.health = 80;
     opponent.fullhealth = 80;
     opponent.mana = 40;
     opponent.attack = 20;
     opponent.defense = 5;
-  }
-  else {
+  } else {
     opponent.name = "Goblin";
     opponent.health = 50;
     opponent.fullhealth = 50;
@@ -353,9 +339,8 @@ void SinglePlayer() {
 
     player.defense = 5;
     opponent.defense = 5;
-    player.mana += 10;
+    player.mana += 1;
     cout << "\n";
-    ClearScreen();
     cout << "-- Next Round --\n";
   }
 }
@@ -392,10 +377,9 @@ void Multiplayer() {
 
     player1.defense = 5;
     player2.defense = 5;
-    player1.mana += 10;
-    player2.mana += 10;
+    player1.mana += 1;
+    player2.mana += 1;
     cout << "\n";
-    ClearScreen();
     cout << "-- Next Round --\n";
   }
 }
@@ -429,7 +413,6 @@ void Menu() {
 
 int main() {
   srand(static_cast<unsigned int>(time(0)));
-  makeFullscreen();
   Menu();
   return 0;
 }
