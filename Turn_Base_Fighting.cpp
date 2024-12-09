@@ -4,8 +4,6 @@
 #include <string>
 using namespace std;
 
-// Arif ganteng
-
 struct Character {
   string name;
   int health;
@@ -43,7 +41,7 @@ void criticalHit(Character& attacker, Character& defender) {
   int damage = max(0, attacker.attack - defender.defense) * 2;
   defender.health -= damage;
   cout << attacker.name << " lands a critical hit for " << damage
-      << " damage!\n";
+       << " damage!\n";
 }
 
 void attack(Character& attacker, Character& defender) {
