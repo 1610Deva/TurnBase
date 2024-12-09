@@ -117,6 +117,7 @@ void playerTurn(Character& player, Character& opponent) {
     cout << "1. Attack\n";
     cout << "2. Defend\n";
     cout << "3. Heal\n";
+    cout << "Your Choice: ";
     cin >> choice;
 
     if (choice == 1) {
@@ -135,6 +136,7 @@ void playerTurn(Character& player, Character& opponent) {
     cout << "2. Defend\n";
     cout << "3. Heal\n";
     cout << "4. Fireball\n";
+    cout << "Your Choice: ";
     cin >> choice;
 
     if (choice == 1) {
@@ -155,6 +157,7 @@ void playerTurn(Character& player, Character& opponent) {
     cout << "2. Defend\n";
     cout << "3. Heal\n";
     cout << "4. Backstab\n";
+    cout << "Your Choice: ";
     cin >> choice;
 
     if (choice == 1) {
@@ -175,6 +178,7 @@ void playerTurn(Character& player, Character& opponent) {
     cout << "2. Defend\n";
     cout << "3. Heal\n";
     cout << "4. Fireball\n";
+    cout << "Your Choice: ";
     cin >> choice;
 
     if (choice == 1) {
@@ -238,14 +242,31 @@ void opponentTurn(Character& opponent, Character& player) {
 
 void RandomOpponent(Character& opponent) {
   int randomenemy = randomInRange(0, 100);
-  if (randomenemy < 30) {
+  if (randomenemy > 0 && randomenemy < 10) {
     opponent.name = "Orc";
     opponent.health = 70;
     opponent.fullhealth = 70;
     opponent.mana = 30;
     opponent.attack = 15;
     opponent.defense = 5;
-  } else {
+  }
+  else if(randomenemy > 10 && randomenemy < 20) {
+    opponent.name = "Bhuto";
+    opponent.health = 50;
+    opponent.fullhealth = 50;
+    opponent.mana = 20;
+    opponent.attack = 10;
+    opponent.defense = 5;
+  }
+  else if(randomenemy > 20 && randomenemy < 40) {
+    opponent.name = "Skeleton";
+    opponent.health = 80;
+    opponent.fullhealth = 80;
+    opponent.mana = 40;
+    opponent.attack = 20;
+    opponent.defense = 5;
+  }
+  else {
     opponent.name = "Goblin";
     opponent.health = 50;
     opponent.fullhealth = 50;
@@ -262,7 +283,9 @@ void ChoseClass(Character& player) {
   cout << "2. Frieren | Mage\n";
   cout << "3. Eisen | Dwarf\n";
   cout << "4. Heiter | Priest\n";
+  cout << "Your Choice: ";
   cin >> choice;
+  cout << "\n";
 
   if (choice == 1) {
     player.name = "Himmel";
