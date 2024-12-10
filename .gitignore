@@ -17,6 +17,7 @@
 *.app
 
 game
+tempCodeRunnerFile.cpp
 
 # Debug files
 *.dSYM/
