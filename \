@@ -32,11 +32,20 @@ void clearScreen() {
 #endif
 }
 
+string messageLogP1 = "";
+string messageLogP2 = "";
+
+void logMessageP1(const string& message) { messageLogP1 = message; }
+void logMessageP2(const string& message) { messageLogP2 = message; }
+
 void displayMessageLog() {
-  cout << "Press Enter to continue...\n";
-  cin.ignore();
-  cin.get();
-  clearScreen();
+  cout << messageLogP1 << endl;
+  cout << messageLogP2 << endl;
+}
+
+void clearMessageLog() {
+  messageLogP1 = "";
+  messageLogP2 = "";
 }
 
 int randomInRange(int min, int max) { return min + rand() % (max - min + 1); }
@@ -47,11 +56,22 @@ void attack(Character& attacker, Character& defender) {
   cout << attacker.name << " attacks for " << damage << " damage!\n";
 }
 
-void criticalHit(Character& attacker, Character& defender) {
+void criticalHit(Character& attacker, Character& defender,
+                 const string& player1name, const string& player2name,
+                 const Character& opponent) {
   int damage = max(0, attacker.attack - defender.defense) * 2;
   defender.health -= damage;
   cout << attacker.name << " lands a critical hit for " << damage
        << " damage!\n";
+
+  if (attacker.nickname == player1name) {
+    logMessageP1(attacker.nickname + " lands a critical hit for " +
+                 to_string(damage) + " damage!");
+  }
+  if (attacker.nickname == player2name || attacker.name == opponent.name) {
+    logMessageP2(attacker.nickname + " lands a critical hit for " +
+                 to_string(damage) + " damage!");
+  }
 }
 
 void attackforcrit(Character& attacker, Character& defender) {
@@ -391,18 +411,23 @@ void SinglePlayer(const string& nickname) {
       cout << "Both players were defeated. Game over.\n";
       break;
     }
+
+    clearScreen();
     displayMessageLog();
   }
 }
 
 void Multiplayer(const string& nickname1, const string& nickname2) {
   Character player1, player2;
+  string player1char, player2char;
   clearScreen();
   player1.nickname = nickname1;
   player2.nickname = nickname2;
 
   ChoseClass(player1);
+  player1char = player1.name;
   ChoseClass(player2);
+  player2char = player2.name;
   cout << "|       | Welcome to the Turn-Based Fighting Game! |       |\n";
 
   while (player1.health > 0 && player2.health > 0) {
@@ -434,6 +459,8 @@ void Multiplayer(const string& nickname1, const string& nickname2) {
       cout << "Both players were defeated. Game over.\n";
       break;
     }
+
+    clearScreen();
     displayMessageLog();
   }
 }
