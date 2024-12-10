@@ -5,6 +5,7 @@
 using namespace std;
 
 struct Character {
+  string nickname;
   string name;
   int health;
   int fullhealth;
@@ -15,13 +16,21 @@ struct Character {
 };
 
 void displayStats(const Character& player, const Character& opponent) {
-  cout << "\n-- " << player.name << " Stats --\n";
+  cout << "\n-- " << player.nickname << " (" << player.name << ") Stats --\n";
   cout << "Health: " << player.health << "\n";
   cout << "Mana: " << player.mana << "\n\n";
   cout << "-- " << opponent.name << " Stats --\n";
   cout << "Health: " << opponent.health << "\n";
   cout << "Mana: " << opponent.mana << "\n";
   cout << "-------------------\n";
+}
+
+void clearScreen() {
+#ifdef _WIN32
+    system("cls");  // Windows
+#else
+    system("clear");  // Linux/macOS
+#endif
 }
 
 int randomInRange(int min, int max) { return min + rand() % (max - min + 1); }
@@ -36,6 +45,7 @@ void criticalHit(Character& attacker, Character& defender) {
 void attack(Character& attacker, Character& defender) {
   int damage = max(0, attacker.attack - defender.defense);
   defender.health -= damage;
+  attacker.mana -= 7;
   cout << attacker.name << " attacks for " << damage << " damage!\n";
 }
 
@@ -61,7 +71,7 @@ void Heal(Character& player) {
       } else if (player.health + heal > player.fullhealth) {
         int heal = player.fullhealth - player.health;
         player.health += heal;
-        player.mana -= 10;
+        player.mana -= 30;
         cout << "You heal for " << heal << " health points!\n";
         return;
       }
@@ -78,7 +88,7 @@ void Heal(Character& player) {
     } else if (player.health + heal > player.fullhealth) {
       int heal = player.fullhealth - player.health;
       player.health += heal;
-      player.mana -= 10;
+      player.mana -= 30;
       cout << "You heal for " << heal << " health points!\n";
       return;
     }
@@ -97,7 +107,7 @@ void Fireball(Character& player, Character& opponent) {
   if (player.mana >= 20) {
     int damage = max(0, player.attack - opponent.defense) * 2;
     opponent.health -= damage;
-    player.mana -= 20;
+    player.mana -= 30;
     cout << "You cast Fireball for " << damage << " damage!\n";
   } else {
     cout << "Not enough mana to cast Fireball. You lose your turn.\n";
@@ -107,18 +117,20 @@ void Fireball(Character& player, Character& opponent) {
 void playerTurn(Character& player, Character& opponent) {
   int choice;
 
+
   if (player.name == "Himmel") {
-    cout << "Your turn! Choose an action:\n";
+    cout << player.nickname << " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
     cout << "3. Heal\n";
     cout << "Your Choice: ";
-    cin >> choice;
+    cin >> choice ;
+    cout << "\n";
 
     if (choice == 1) {
       critChance(player, opponent);
     } else if (choice == 2) {
-      player.defense += 5;
+      player.defense += 10;
       cout << "You raise your defense!\n";
     } else if (choice == 3) {
       Heal(player);
@@ -126,7 +138,7 @@ void playerTurn(Character& player, Character& opponent) {
       cout << "Invalid choice. You lose your turn.\n";
     }
   } else if (player.name == "Frieren") {
-    cout << "Your turn! Choose an action:\n";
+    cout << player.nickname << " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
     cout << "3. Heal\n";
@@ -137,7 +149,7 @@ void playerTurn(Character& player, Character& opponent) {
     if (choice == 1) {
       attack(player, opponent);
     } else if (choice == 2) {
-      player.defense += 5;
+      player.defense += 10;
       cout << "You raise your defense!\n";
     } else if (choice == 3) {
       Heal(player);
@@ -147,7 +159,7 @@ void playerTurn(Character& player, Character& opponent) {
       cout << "Not enough mana to cast Fireball. You lose your turn.\n";
     }
   } else if (player.name == "Eisen") {
-    cout << "Your turn! Choose an action:\n";
+    cout << player.nickname <<  " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
     cout << "3. Heal\n";
@@ -158,7 +170,7 @@ void playerTurn(Character& player, Character& opponent) {
     if (choice == 1) {
       attack(player, opponent);
     } else if (choice == 2) {
-      player.defense += 5;
+      player.defense += 10;
       cout << "You raise your defense!\n";
     } else if (choice == 3) {
       Heal(player);
@@ -168,7 +180,7 @@ void playerTurn(Character& player, Character& opponent) {
       cout << "Invalid choice. You lose your turn.\n";
     }
   } else if (player.name == "Heiter") {
-    cout << "Your turn! Choose an action:\n";
+    cout << player.nickname << " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
     cout << "3. Heal\n";
@@ -179,7 +191,7 @@ void playerTurn(Character& player, Character& opponent) {
     if (choice == 1) {
       attack(player, opponent);
     } else if (choice == 2) {
-      player.defense += 5;
+      player.defense += 10;
       cout << "You raise your defense!\n";
     } else if (choice == 3) {
       Heal(player);
@@ -229,7 +241,7 @@ void opponentTurn(Character& opponent, Character& player) {
       if (choice == 0) {
         critChance(opponent, player);
       } else {
-        opponent.defense += 5;
+        opponent.defense += 10;
         cout << opponent.name << " raises their defense!\n";
       }
     }
@@ -282,8 +294,10 @@ void RandomOpponent(Character& opponent) {
 }
 
 void ChoseClass(Character& player) {
+   clearScreen(); 
   int choice;
-  cout << "Choose a class:\n";
+  cout << "|       | Welcome to the Turn-Based Fighting Game! |       | \n\n";
+  cout << player.nickname << " Choose a class:\n\n";
   cout << "1. Himmel | Warrior\n";
   cout << "2. Frieren | Mage\n";
   cout << "3. Eisen | Dwarf\n";
@@ -330,113 +344,114 @@ void ChoseClass(Character& player) {
   }
 }
 
-void SinglePlayer() {
-  cout << "Single Player Mode\n";
+void SinglePlayer(const string& nickname) {
+  clearScreen(); 
   Character player;
+  player.nickname = nickname;
   ChoseClass(player);
   Character opponent;
   RandomOpponent(opponent);
-  cout << "Welcome to the Turn-Based Fighting Game!\n";
+  cout << "|       | Welcome to the Turn-Based Fighting Game! |       | \n";
 
   while (player.health > 0 && opponent.health > 0) {
     displayStats(player, opponent);
-
-    cout << "Player's turn!\n";
-
     playerTurn(player, opponent);
-
     if (opponent.health <= 0) {
-      cout << "You defeated the opponent! Congratulations!\n";
+      cout << endl;
+      cout << "   _____        __      _______     \n\n";
+      cout << "|          | Victory |           | \n";
+      cout << "   Congratulations " << player.nickname << " a winner\n";
+      cout << "   _____        __      _______     \n\n";
       break;
+
     }
-
-    cout << "\n";
-    cout << "Opponent's turn!\n";
-
     opponentTurn(opponent, player);
-
     if (player.health <= 0) {
       cout << "You were defeated by the opponent. Game over.\n";
       break;
     }
-
     player.defense = 5;
     opponent.defense = 5;
     manaRegen(player);
     manaRegen(opponent);
-    cout << "\n";
-    cout << "-- Next Round --\n";
   }
 }
 
-void Multiplayer() {
-  cout << "Multiplayer Mode\n";
-  Character player1;
+void Multiplayer(const string& nickname1, const string& nickname2) {
+  Character player1, player2;
+  clearScreen(); 
+  player1.nickname = nickname1;
+  player2.nickname = nickname2;
+
   ChoseClass(player1);
-  Character player2;
   ChoseClass(player2);
-  cout << "Welcome to the Turn-Based Fighting Game!\n";
+  cout << "|       | Welcome to the Turn-Based Fighting Game! |       |\n";
 
   while (player1.health > 0 && player2.health > 0) {
     displayStats(player1, player2);
-
-    cout << "Player 1's turn!\n";
-
     playerTurn(player1, player2);
-
     if (player2.health <= 0) {
-      cout << "Player 1 defeated Player 2! Congratulations!\n";
+      cout << endl;
+      cout << "   _____        __      _______     \n\n";
+      cout << "|          | Victory |           | \n";
+      cout << "    Congratulations " << player1.nickname << " a winner\n";
+      cout << "   _____        __      _______     \n\n";
       break;
     }
-
-    cout << "\n";
-    cout << "Player 2's turn!\n";
-
     playerTurn(player2, player1);
-
     if (player1.health <= 0) {
-      cout << "Player 2 defeated Player 1! Congratulations!\n";
+      cout << endl;
+      cout << "   _____        __      _______     \n\n";
+      cout << "|          | Victory |           |\\n";
+      cout << "    Congratulations " << player2.nickname << " a winner\n";
+      cout << "   _____        __      _______     \n\n";
       break;
     }
-
     player1.defense = 5;
     player2.defense = 5;
     manaRegen(player1);
     manaRegen(player2);
-    cout << "\n";
-    cout << "-- Next Round --\n";
   }
 }
 
 void Menu() {
+  cout << "|       | Welcome to the Turn-Based Fighting Game! |       | \n";
+  cout << "------------------------------------------------------------ \n\n";
+ 
   cout << "Chose your game mode:\n";
   cout << "1. Single Player\n";
   cout << "2. Multiplayer\n";
   cout << "3. Exit\n";
-
   cout << "Enter your choice: ";
   int choice;
   cin >> choice;
   cout << "\n";
 
-  switch (choice) {
-    case 1:
-      SinglePlayer();
-      break;
-    case 2:
-      Multiplayer();
-      break;
-    case 3:
-      cout << "Exit\n";
-      break;
-    default:
-      cout << "Invalid choice. Please choose a game mode.\n";
-      return Menu();
+  string nickname1, nickname2;
+
+  if (choice == 1) {
+    cout << "Enter your nickname: ";
+    cin >> nickname1;
+    cout << "\n";
+    SinglePlayer(nickname1);
+  } else if (choice == 2) {
+    cout << "Enter Player 1's nickname: ";
+    cin >> nickname1;
+    cout << "Enter Player 2's nickname: ";
+    cin >> nickname2;
+    Multiplayer(nickname1, nickname2);
+  } else if (choice == 3) {
+    cout << "Exit\n";
+    return;
+  } else {
+    cout << "Invalid choice. Please choose a valid option.\n";
+    Menu();  // Rekursi untuk validasi ulang
   }
 }
 
 int main() {
   srand(static_cast<unsigned int>(time(0)));
+  clearScreen(); 
   Menu();
   return 0;
 }
