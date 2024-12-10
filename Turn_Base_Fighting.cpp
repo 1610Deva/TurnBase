@@ -11,6 +11,7 @@ struct Character {
   int attack;
   int defense;
   int mana;
+  int maxmana;
 };
 
 void displayStats(const Character& player, const Character& opponent) {
@@ -83,6 +84,12 @@ void Heal(Character& player) {
     }
   } else {
     cout << "Not enough mana to heal. You lose your turn.\n";
+  }
+}
+
+void manaRegen(Character& player) {
+  if (player.mana < player.maxmana) {
+    player.mana += 1;
   }
 }
 
@@ -231,32 +238,44 @@ void opponentTurn(Character& opponent, Character& player) {
 
 void RandomOpponent(Character& opponent) {
   int randomenemy = randomInRange(0, 100);
-  if (randomenemy > 0 && randomenemy < 10) {
+  if (randomenemy >= 1 && randomenemy <= 10) {
     opponent.name = "Orc";
     opponent.health = 70;
     opponent.fullhealth = 70;
     opponent.mana = 30;
+    opponent.maxmana = 30;
     opponent.attack = 15;
     opponent.defense = 5;
-  } else if (randomenemy > 10 && randomenemy < 20) {
+  } else if (randomenemy >= 11 && randomenemy <= 20) {
     opponent.name = "Bhuto";
     opponent.health = 50;
     opponent.fullhealth = 50;
     opponent.mana = 20;
+    opponent.maxmana = 20;
     opponent.attack = 10;
     opponent.defense = 5;
-  } else if (randomenemy > 20 && randomenemy < 40) {
+  } else if (randomenemy >= 21 && randomenemy <= 40) {
     opponent.name = "Skeleton";
     opponent.health = 80;
     opponent.fullhealth = 80;
     opponent.mana = 40;
+    opponent.maxmana = 40;
     opponent.attack = 20;
     opponent.defense = 5;
+  } else if (randomenemy >= 41 && randomenemy <= 45) {
+    opponent.name = "Dragon";
+    opponent.health = 200;
+    opponent.fullhealth = 200;
+    opponent.mana = 100;
+    opponent.maxmana = 100;
+    opponent.attack = 50;
+    opponent.defense = 10;
   } else {
     opponent.name = "Goblin";
     opponent.health = 50;
     opponent.fullhealth = 50;
     opponent.mana = 20;
+    opponent.maxmana = 20;
     opponent.attack = 10;
     opponent.defense = 5;
   }
@@ -280,6 +299,7 @@ void ChoseClass(Character& player) {
     player.attack = 20;
     player.defense = 5;
     player.mana = 50;
+    player.maxmana = 50;
   } else if (choice == 2) {
     player.name = "Frieren";
     player.health = 70;
@@ -287,6 +307,7 @@ void ChoseClass(Character& player) {
     player.attack = 30;
     player.defense = 3;
     player.mana = 100;
+    player.maxmana = 100;
   } else if (choice == 3) {
     player.name = "Eisen";
     player.health = 80;
@@ -294,6 +315,7 @@ void ChoseClass(Character& player) {
     player.attack = 25;
     player.defense = 4;
     player.mana = 70;
+    player.maxmana = 70;
   } else if (choice == 4) {
     player.name = "Heiter";
     player.health = 90;
@@ -301,6 +323,7 @@ void ChoseClass(Character& player) {
     player.attack = 25;
     player.defense = 5;
     player.mana = 80;
+    player.maxmana = 80;
   } else {
     cout << "Invalid choice. Please choose a class.\n";
     return ChoseClass(player);
@@ -339,7 +362,8 @@ void SinglePlayer() {
 
     player.defense = 5;
     opponent.defense = 5;
-    player.mana += 1;
+    manaRegen(player);
+    manaRegen(opponent);
     cout << "\n";
     cout << "-- Next Round --\n";
   }
@@ -377,8 +401,8 @@ void Multiplayer() {
 
     player1.defense = 5;
     player2.defense = 5;
-    player1.mana += 1;
-    player2.mana += 1;
+    manaRegen(player1);
+    manaRegen(player2);
     cout << "\n";
     cout << "-- Next Round --\n";
   }
