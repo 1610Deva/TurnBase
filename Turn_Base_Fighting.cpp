@@ -27,9 +27,9 @@ void displayStats(const Character& player, const Character& opponent) {
 
 void clearScreen() {
 #ifdef _WIN32
-    system("cls");  // Windows
+  system("cls");  // Windows
 #else
-    system("clear");  // Linux/macOS
+  system("clear");  // Linux/macOS
 #endif
 }
 
@@ -117,14 +117,13 @@ void Fireball(Character& player, Character& opponent) {
 void playerTurn(Character& player, Character& opponent) {
   int choice;
 
-
   if (player.name == "Himmel") {
     cout << player.nickname << " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
     cout << "3. Heal\n";
     cout << "Your Choice: ";
-    cin >> choice ;
+    cin >> choice;
     cout << "\n";
 
     if (choice == 1) {
@@ -159,7 +158,7 @@ void playerTurn(Character& player, Character& opponent) {
       cout << "Not enough mana to cast Fireball. You lose your turn.\n";
     }
   } else if (player.name == "Eisen") {
-    cout << player.nickname <<  " Turn " << "Choose an action:\n";
+    cout << player.nickname << " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
     cout << "3. Heal\n";
@@ -294,7 +293,7 @@ void RandomOpponent(Character& opponent) {
 }
 
 void ChoseClass(Character& player) {
-   clearScreen(); 
+  clearScreen();
   int choice;
   cout << "|       | Welcome to the Turn-Based Fighting Game! |       | \n\n";
   cout << player.nickname << " Choose a class:\n\n";
@@ -345,7 +344,7 @@ void ChoseClass(Character& player) {
 }
 
 void SinglePlayer(const string& nickname) {
-  clearScreen(); 
+  clearScreen();
   Character player;
   player.nickname = nickname;
   ChoseClass(player);
@@ -363,7 +362,6 @@ void SinglePlayer(const string& nickname) {
       cout << "   Congratulations " << player.nickname << " a winner\n";
       cout << "   _____        __      _______     \n\n";
       break;
-
     }
     opponentTurn(opponent, player);
     if (player.health <= 0) {
@@ -379,7 +377,7 @@ void SinglePlayer(const string& nickname) {
 
 void Multiplayer(const string& nickname1, const string& nickname2) {
   Character player1, player2;
-  clearScreen(); 
+  clearScreen();
   player1.nickname = nickname1;
   player2.nickname = nickname2;
 
@@ -394,7 +392,7 @@ void Multiplayer(const string& nickname1, const string& nickname2) {
       cout << endl;
       cout << "   _____        __      _______     \n\n";
       cout << "|          | Victory |           | \n";
-      cout << "    Congratulations " << player1.nickname << " a winner\n";
+      cout << "    Congratulations " << player1.nickname << " a winner \n";
       cout << "   _____        __      _______     \n\n";
       break;
     }
@@ -417,7 +415,7 @@ void Multiplayer(const string& nickname1, const string& nickname2) {
 void Menu() {
   cout << "|       | Welcome to the Turn-Based Fighting Game! |       | \n";
   cout << "------------------------------------------------------------ \n\n";
- 
+
   cout << "Chose your game mode:\n";
   cout << "1. Single Player\n";
   cout << "2. Multiplayer\n";
@@ -451,7 +449,7 @@ void Menu() {
 
 int main() {
   srand(static_cast<unsigned int>(time(0)));
-  clearScreen(); 
+  clearScreen();
   Menu();
   return 0;
 }
