@@ -29,7 +29,7 @@ void clearScreen() {
 #ifdef _WIN32
   system("cls");
 #else
-  system("clear"); 
+  system("clear");
 #endif
 }
 
@@ -76,7 +76,7 @@ void Heal(Character& player) {
   int heal;
 
   if (player.name == "Heiter") {
-    heal = randomInRange(20, 40);
+    heal = randomInRange(40, 60);
     if (player.mana >= 10) {
       if (player.health == player.fullhealth) {
         cout << "You are already at full health. You lose your turn.\n";
@@ -84,7 +84,7 @@ void Heal(Character& player) {
       } else if (player.health + heal > player.fullhealth) {
         int heal = player.fullhealth - player.health;
         player.health += heal;
-        player.mana -= 30;
+        player.mana -= 10;
         cout << "You heal for " << heal << " health points!\n";
         return;
       }
@@ -101,7 +101,7 @@ void Heal(Character& player) {
     } else if (player.health + heal > player.fullhealth) {
       int heal = player.fullhealth - player.health;
       player.health += heal;
-      player.mana -= 30;
+      player.mana -= 10;
       cout << "You heal for " << heal << " health points!\n";
       return;
     }
@@ -117,10 +117,10 @@ void manaRegen(Character& player) {
 }
 
 void Fireball(Character& player, Character& opponent) {
-  if (player.mana >= 20) {
+  if (player.mana >= 60) {
     int damage = max(0, player.attack - opponent.defense) * 2;
     opponent.health -= damage;
-    player.mana -= 30;
+    player.mana -= 60;
     cout << "You cast Fireball for " << damage << " damage!\n";
   } else {
     cout << "Not enough mana to cast Fireball. You lose your turn.\n";
@@ -134,7 +134,7 @@ void playerTurn(Character& player, Character& opponent) {
     cout << player.nickname << " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
-    cout << "3. Heal\n";
+    cout << "3. Heal | Mana cost: 10\n";
     cout << "Your Choice: ";
     cin >> choice;
     cout << "\n";
@@ -153,8 +153,8 @@ void playerTurn(Character& player, Character& opponent) {
     cout << player.nickname << " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
-    cout << "3. Heal\n";
-    cout << "4. Fireball\n";
+    cout << "3. Heal | Mana cost: 10\n";
+    cout << "4. Fireball | Mana cost: 60\n";
     cout << "Your Choice: ";
     cin >> choice;
 
@@ -174,7 +174,7 @@ void playerTurn(Character& player, Character& opponent) {
     cout << player.nickname << " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
-    cout << "3. Heal\n";
+    cout << "3. Heal | Mana cost: 10\n";
     cout << "4. Backstab\n";
     cout << "Your Choice: ";
     cin >> choice;
@@ -195,8 +195,8 @@ void playerTurn(Character& player, Character& opponent) {
     cout << player.nickname << " Turn " << "Choose an action:\n";
     cout << "1. Attack\n";
     cout << "2. Defend\n";
-    cout << "3. Heal\n";
-    cout << "4. Fireball\n";
+    cout << "3. Heal | Mana cost: 10\n";
+    cout << "4. Fireball | Mana cost: 60\n";
     cout << "Your Choice: ";
     cin >> choice;
 
@@ -288,8 +288,8 @@ void RandomOpponent(Character& opponent) {
     opponent.defense = 5;
   } else if (randomenemy >= 41 && randomenemy <= 45) {
     opponent.name = "Dragon";
-    opponent.health = 200;
-    opponent.fullhealth = 200;
+    opponent.health = 500;
+    opponent.fullhealth = 500;
     opponent.mana = 100;
     opponent.maxmana = 100;
     opponent.attack = 50;
@@ -328,8 +328,8 @@ void ChoseClass(Character& player) {
     player.maxmana = 50;
   } else if (choice == 2) {
     player.name = "Frieren";
-    player.health = 70;
-    player.fullhealth = 70;
+    player.health = 60;
+    player.fullhealth = 60;
     player.attack = 30;
     player.defense = 3;
     player.mana = 100;
@@ -374,8 +374,14 @@ void SinglePlayer(const string& nickname) {
       cout << endl;
       cout << "   _____        __      _______     \n\n";
       cout << "|          | Victory |           | \n";
-      cout << "   Congratulations " << player.nickname << " a winner \n";
+      cout << "   Congratulations " << player.nickname << " is the winner \n";
       cout << "   _____        __      _______     \n\n";
+
+      cout << " press Enter to continue fight ... \n";
+      cin.ignore();
+      cin.get();
+      clearScreen();
+      return SinglePlayer(nickname);
       break;
     }
     opponentTurn(opponent, player);
@@ -413,7 +419,7 @@ void Multiplayer(const string& nickname1, const string& nickname2) {
       cout << endl;
       cout << "   _____        __      _______     \n\n";
       cout << "|          | Victory |           | \n";
-      cout << "    Congratulations " << player1.nickname << " a winner \n";
+      cout << "    Congratulations " << player1.nickname << " is the winner \n";
       cout << "   _____        __      _______     \n\n";
       break;
     }
@@ -422,7 +428,7 @@ void Multiplayer(const string& nickname1, const string& nickname2) {
       cout << endl;
       cout << "   _____        __      _______     \n\n";
       cout << "|          | Victory |           |\\n";
-      cout << "    Congratulations " << player2.nickname << " a winner\n";
+      cout << "    Congratulations " << player2.nickname << " is the winner\n";
       cout << "   _____        __      _______     \n\n";
       break;
     }
