@@ -27,8 +27,9 @@ void displayStats(const Character& player, const Character& opponent) {
 
 void clearScreen() {
 #ifdef _WIN32
+  system("cls");
 #else
-  system("clear");
+  system("clear"); 
 #endif
 }
 
