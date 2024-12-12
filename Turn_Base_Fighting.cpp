@@ -212,6 +212,37 @@ void playerTurn(Character& player, Character& opponent) {
     } else {
       cout << "Not enough mana to cast Fireball. You lose your turn.\n";
     }
+  } else if (player.name == "Dimas") {
+    cout << player.nickname << " Turn " << "Choose an action:\n";
+    cout << "1. Attack\n";
+    cout << "2. Defend\n";
+    cout << "3. Heal | Mana cost: 10\n";
+    cout << "4. Fireball | Mana cost: 60\n";
+    cout << "5. Futsal Kick | Mana cost: 20\n";
+    cout << "Your Choice: ";
+    cin >> choice;
+
+    if (choice == 1) {
+      attack(player, opponent);
+    } else if (choice == 2) {
+      player.defense += 10;
+      cout << "You raise your defense!\n";
+    } else if (choice == 3) {
+      Heal(player);
+    } else if (choice == 4) {
+      Fireball(player, opponent);
+    } else if (choice == 5) {
+      if (player.mana >= 20) {
+        int damage = max(0, player.attack - opponent.defense) * 3;
+        opponent.health -= damage;
+        player.mana -= 20;
+        cout << "You cast Futsal Kick for " << damage << " damage!\n";
+      } else {
+        cout << "Not enough mana to cast Futsal Kick. You lose your turn.\n";
+      }
+    } else {
+      cout << "Invalid choice. You lose your turn.\n";
+    }
   } else {
     cout << "Invalid choice. You lose your turn.\n";
   }
@@ -241,21 +272,25 @@ void opponentTurn(Character& opponent, Character& player) {
     } else {
       critChance(opponent, player);
     }
-  } else {
-    critChance(opponent, player);
-  }
-
-  if (opponent.name == "Goblin" && opponent.health < 20) {
+  } else if (opponent.name == "Goblin" && opponent.health < 30) {
     if (choice == 0) {
       Heal(opponent);
       return;
     } else {
-      if (choice == 0) {
-        critChance(opponent, player);
-      } else {
-        opponent.defense += 10;
-        cout << opponent.name << " raises their defense!\n";
-      }
+      critChance(opponent, player);
+    }
+  } else if (opponent.name == "Dragon" && opponent.health < 100) {
+    if (choice == 0) {
+      Heal(opponent);
+      return;
+    } else {
+      critChance(opponent, player);
+    }
+  } else {
+    if (choice == 0) {
+      critChance(opponent, player);
+    } else {
+      attack(opponent, player);
     }
   }
 }
@@ -314,6 +349,7 @@ void ChoseClass(Character& player) {
   cout << "2. Frieren | Mage\n";
   cout << "3. Eisen | Dwarf\n";
   cout << "4. Heiter | Priest\n";
+  cout << "5. Dimas | Futsal Player TIC \n";
   cout << "Your Choice: ";
   cin >> choice;
   cout << "\n";
@@ -350,6 +386,14 @@ void ChoseClass(Character& player) {
     player.defense = 5;
     player.mana = 80;
     player.maxmana = 80;
+  } else if (choice == 5) {
+    player.name = "Dimas";
+    player.health = 180;
+    player.fullhealth = 180;
+    player.attack = 40;
+    player.defense = 5;
+    player.mana = 100;
+    player.maxmana = 100;
   } else {
     cout << "Invalid choice. Please choose a class.\n";
     return ChoseClass(player);
