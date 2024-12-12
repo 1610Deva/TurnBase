@@ -264,24 +264,24 @@ void RandomOpponent(Character& opponent) {
   int randomenemy = randomInRange(0, 100);
   if (randomenemy >= 1 && randomenemy <= 10) {
     opponent.name = "Orc";
-    opponent.health = 70;
-    opponent.fullhealth = 70;
+    opponent.health = 150;
+    opponent.fullhealth = 150;
     opponent.mana = 30;
     opponent.maxmana = 30;
     opponent.attack = 15;
     opponent.defense = 5;
   } else if (randomenemy >= 11 && randomenemy <= 20) {
     opponent.name = "Bhuto";
-    opponent.health = 50;
-    opponent.fullhealth = 50;
+    opponent.health = 130;
+    opponent.fullhealth = 130;
     opponent.mana = 20;
     opponent.maxmana = 20;
-    opponent.attack = 10;
+    opponent.attack = 25;
     opponent.defense = 5;
   } else if (randomenemy >= 21 && randomenemy <= 40) {
     opponent.name = "Skeleton";
-    opponent.health = 80;
-    opponent.fullhealth = 80;
+    opponent.health = 140;
+    opponent.fullhealth = 140;
     opponent.mana = 40;
     opponent.maxmana = 40;
     opponent.attack = 20;
@@ -296,11 +296,11 @@ void RandomOpponent(Character& opponent) {
     opponent.defense = 10;
   } else {
     opponent.name = "Goblin";
-    opponent.health = 50;
-    opponent.fullhealth = 50;
+    opponent.health = 100;
+    opponent.fullhealth = 100;
     opponent.mana = 20;
     opponent.maxmana = 20;
-    opponent.attack = 10;
+    opponent.attack = 20;
     opponent.defense = 5;
   }
 }
@@ -384,7 +384,7 @@ void AdventureMode(const string& nickname) {
 
       player.health = player.fullhealth + 100;
       player.mana = player.maxmana + 100;
-      player.attack = player.attack + 10;
+      player.attack = player.attack + 20;
       player.defense = player.defense + 5;
 
       cout << "You have encountered a " << opponent.name << "!\n";
@@ -475,6 +475,7 @@ void SinglePlayer(const string& nickname) {
   while (player.health > 0 && opponent.health > 0) {
     displayStats(player, opponent);
     playerTurn(player, opponent);
+
     if (opponent.health <= 0) {
       cout << endl;
       cout << "   _____        __      _______     \n\n";
@@ -489,7 +490,9 @@ void SinglePlayer(const string& nickname) {
       return SinglePlayer(nickname);
       break;
     }
+
     opponentTurn(opponent, player);
+
     if (player.health <= 0) {
       cout << "You were defeated by the opponent. Game over.\n";
       break;
