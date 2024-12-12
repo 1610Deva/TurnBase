@@ -42,9 +42,21 @@ void displayMessageLog() {
 
 int randomInRange(int min, int max) { return min + rand() % (max - min + 1); }
 
+void missAttack() {
+  int chance = randomInRange(0, 100);
+
+  if (chance < 10) {
+    cout << "The attack missed!\n";
+    return;
+  }
+}
+
 void attack(Character& attacker, Character& defender) {
   int damage = max(0, attacker.attack - defender.defense);
   defender.health -= damage;
+
+  missAttack();
+
   cout << attacker.name << " attacks for " << damage << " damage!\n";
 }
 
@@ -64,6 +76,8 @@ void attackforcrit(Character& attacker, Character& defender) {
 
 void critChance(Character& attacker, Character& defender) {
   int chance = randomInRange(0, 100);
+
+  missAttack();
 
   if (chance < 10) {
     criticalHit(attacker, defender);
@@ -117,6 +131,8 @@ void manaRegen(Character& player) {
 }
 
 void Fireball(Character& player, Character& opponent) {
+  missAttack();
+
   if (player.mana >= 60) {
     int damage = max(0, player.attack - opponent.defense) * 2;
     opponent.health -= damage;
