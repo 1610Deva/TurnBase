@@ -9,9 +9,23 @@ you can use mingw or g++
 
 if you use g++
 ```
-g++ -o game Turn_Base_Fighting.cpp
+g++ -o game Main.cpp
 
 then
 
 ./game
+```
+
+or you can just run
+
+TurnBase.sh
+
+or
+
+TurnBase.bat
+
+
+this is the old file
+```
+Turn_Base_Fighting.cpp
 ```
