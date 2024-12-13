@@ -42,20 +42,16 @@ void displayMessageLog() {
 
 int randomInRange(int min, int max) { return min + rand() % (max - min + 1); }
 
-void missAttack() {
-  int chance = randomInRange(0, 100);
+void attack(Character& attacker, Character& defender) {
+  int miss = randomInRange(0, 100);
 
-  if (chance < 10) {
-    cout << "The attack missed!\n";
+  if (miss < 10) {
+    cout << attacker.name << " missed the attack!\n";
     return;
   }
-}
 
-void attack(Character& attacker, Character& defender) {
   int damage = max(0, attacker.attack - defender.defense);
   defender.health -= damage;
-
-  missAttack();
 
   cout << attacker.name << " attacks for " << damage << " damage!\n";
 }
@@ -76,13 +72,19 @@ void attackforcrit(Character& attacker, Character& defender) {
 
 void critChance(Character& attacker, Character& defender) {
   int chance = randomInRange(0, 100);
+  int miss = randomInRange(0, 100);
 
-  missAttack();
+  if (miss < 10) {
+    cout << attacker.name << " missed the attack!\n";
+    return;
+  }
 
   if (chance < 10) {
     criticalHit(attacker, defender);
+    return;
   } else {
     attackforcrit(attacker, defender);
+    return;
   }
 }
 
@@ -93,17 +95,19 @@ void Heal(Character& player) {
     heal = randomInRange(40, 60);
     if (player.mana >= 10) {
       if (player.health == player.fullhealth) {
-        cout << "You are already at full health. You lose your turn.\n";
+        cout << player.name
+             << " are already at full health. You lose your turn.\n";
         return;
       } else if (player.health + heal > player.fullhealth) {
         int heal = player.fullhealth - player.health;
         player.health += heal;
         player.mana -= 10;
-        cout << "You heal for " << heal << " health points!\n";
+        cout << player.name << " heal for " << heal << " health points!\n";
         return;
       }
     } else {
       cout << "Not enough mana to heal. You lose your turn.\n";
+      return;
     }
   }
 
@@ -116,30 +120,78 @@ void Heal(Character& player) {
       int heal = player.fullhealth - player.health;
       player.health += heal;
       player.mana -= 10;
-      cout << "You heal for " << heal << " health points!\n";
+      cout << player.name << " heal for " << heal << " health points!\n";
       return;
     }
   } else {
     cout << "Not enough mana to heal. You lose your turn.\n";
+    return;
   }
 }
 
 void manaRegen(Character& player) {
   if (player.mana < player.maxmana) {
-    player.mana += 1;
+    player.mana += 2;
   }
 }
 
 void Fireball(Character& player, Character& opponent) {
-  missAttack();
+  int miss = randomInRange(0, 100);
+
+  if (miss < 10) {
+    cout << player.name << " missed the attack!\n";
+    return;
+  }
 
   if (player.mana >= 60) {
     int damage = max(0, player.attack - opponent.defense) * 2;
     opponent.health -= damage;
     player.mana -= 60;
-    cout << "You cast Fireball for " << damage << " damage!\n";
+    cout << player.name << " cast Fireball for " << damage << " damage!\n";
+    return;
   } else {
     cout << "Not enough mana to cast Fireball. You lose your turn.\n";
+    return;
+  }
+}
+
+void WaterCanon(Character& player, Character& opponent) {
+  int miss = randomInRange(0, 100);
+
+  if (miss < 10) {
+    cout << player.name << " missed the attack!\n";
+    return;
+  }
+
+  if (player.mana >= 60) {
+    int damage = max(0, player.attack - opponent.defense) * 2;
+    opponent.health -= damage;
+    player.mana -= 60;
+    cout << player.name << " cast Water Canon for " << damage << " damage!\n";
+    return;
+  } else {
+    cout << "Not enough mana to cast Water Canon. You lose your turn.\n";
+    return;
+  }
+}
+
+void WorldCuttingSlash(Character& player, Character& opponent) {
+  int miss = randomInRange(0, 100);
+
+  if (miss < 10) {
+    cout << player.name << " missed the attack!\n";
+    return;
+  }
+
+  if (player.mana >= 60) {
+    int damage = max(0, player.attack - opponent.defense) * 2;
+    opponent.health -= damage;
+    player.mana -= 60;
+    cout << player.name << " cast World Cutting Slash for " << damage
+         << " damage!\n";
+  } else {
+    cout
+        << "Not enough mana to cast World Cutting Slash. You lose your turn.\n";
   }
 }
 
@@ -266,47 +318,185 @@ void playerTurn(Character& player, Character& opponent) {
 
 void opponentTurn(Character& opponent, Character& player) {
   int choice = randomInRange(0, 2);
+  int skillchoice = randomInRange(0, 2);
 
   if (opponent.name == "Orc" && opponent.health < 30) {
     if (choice == 0) {
       Heal(opponent);
       return;
-    } else {
+    } else if (choice == 1) {
       critChance(opponent, player);
-    }
-  } else if (opponent.name == "Bhuto" && opponent.health < 20) {
-    if (choice == 0) {
-      Heal(opponent);
       return;
     } else {
-      critChance(opponent, player);
-    }
-  } else if (opponent.name == "Skeleton" && opponent.health < 40) {
-    if (choice == 0) {
-      Heal(opponent);
+      attack(opponent, player);
       return;
-    } else {
-      critChance(opponent, player);
-    }
-  } else if (opponent.name == "Goblin" && opponent.health < 30) {
-    if (choice == 0) {
-      Heal(opponent);
-      return;
-    } else {
-      critChance(opponent, player);
-    }
-  } else if (opponent.name == "Dragon" && opponent.health < 100) {
-    if (choice == 0) {
-      Heal(opponent);
-      return;
-    } else {
-      critChance(opponent, player);
     }
   } else {
     if (choice == 0) {
       critChance(opponent, player);
+      return;
+    } else if (choice == 1) {
+      attack(opponent, player);
+      return;
+    } else {
+      Heal(opponent);
+      return;
+    }
+  }
+
+  if (opponent.name == "Bhuto" && opponent.health < 20) {
+    if (choice == 0) {
+      Heal(opponent);
+      return;
+    } else if (choice == 1) {
+      critChance(opponent, player);
+      return;
     } else {
       attack(opponent, player);
+      return;
+    }
+  } else {
+    if (choice == 0) {
+      critChance(opponent, player);
+      return;
+    } else if (choice == 1) {
+      attack(opponent, player);
+      return;
+    } else {
+      Heal(opponent);
+      return;
+    }
+  }
+
+  if (opponent.name == "Skeleton" && opponent.health < 40) {
+    if (choice == 0) {
+      Heal(opponent);
+      return;
+    } else if (choice == 1) {
+      critChance(opponent, player);
+      return;
+    } else {
+      attack(opponent, player);
+      return;
+    }
+  } else {
+    if (choice == 0) {
+      critChance(opponent, player);
+      return;
+    } else if (choice == 1) {
+      attack(opponent, player);
+      return;
+    } else {
+      Heal(opponent);
+      return;
+    }
+  }
+
+  if (opponent.name == "Goblin" && opponent.health < 30) {
+    if (choice == 0) {
+      Heal(opponent);
+      return;
+    } else {
+      critChance(opponent, player);
+      return;
+    }
+  } else {
+    if (choice == 0) {
+      critChance(opponent, player);
+      return;
+    } else if (choice == 1) {
+      attack(opponent, player);
+      return;
+    } else {
+      Heal(opponent);
+      return;
+    }
+  }
+
+  if (opponent.name == "Fire Dragon" && opponent.health < 100) {
+    if (choice == 0) {
+      Heal(opponent);
+      return;
+    } else {
+      if (skillchoice == 0) {
+        critChance(opponent, player);
+        return;
+      } else if (skillchoice == 1) {
+        attack(opponent, player);
+        return;
+      } else {
+        Fireball(opponent, player);
+        return;
+      }
+    }
+  } else {
+    if (choice == 0) {
+      critChance(opponent, player);
+      return;
+    } else if (choice == 1) {
+      attack(opponent, player);
+      return;
+    } else {
+      Fireball(opponent, player);
+      return;
+    }
+  }
+
+  if (opponent.name == "Kraken" && opponent.health < 100) {
+    if (choice == 0) {
+      Heal(opponent);
+      return;
+    } else {
+      if (skillchoice == 0) {
+        critChance(opponent, player);
+        return;
+      } else if (skillchoice == 1) {
+        attack(opponent, player);
+        return;
+      } else {
+        WaterCanon(opponent, player);
+        return;
+      }
+    }
+  } else {
+    if (choice == 0) {
+      critChance(opponent, player);
+      return;
+    } else if (choice == 1) {
+      attack(opponent, player);
+      return;
+    } else {
+      WaterCanon(opponent, player);
+      return;
+    }
+  }
+
+  if (opponent.name == "The Conqueror" && opponent.health < 200) {
+    if (choice == 0) {
+      Heal(opponent);
+      return;
+    } else {
+      if (skillchoice == 0) {
+        critChance(opponent, player);
+        return;
+      } else if (skillchoice == 1) {
+        attack(opponent, player);
+        return;
+      } else {
+        WorldCuttingSlash(opponent, player);
+        return;
+      }
+    }
+  } else {
+    if (choice == 0) {
+      critChance(opponent, player);
+      return;
+    } else if (choice == 1) {
+      attack(opponent, player);
+      return;
+    } else {
+      WorldCuttingSlash(opponent, player);
+      return;
     }
   }
 }
@@ -343,6 +533,14 @@ void RandomOpponent(Character& opponent) {
     opponent.fullhealth = 500;
     opponent.mana = 100;
     opponent.maxmana = 100;
+    opponent.attack = 50;
+    opponent.defense = 10;
+  } else if (randomenemy >= 46 && randomenemy <= 50) {
+    opponent.name = "Kraken";
+    opponent.health = 500;
+    opponent.fullhealth = 500;
+    opponent.mana = 300;
+    opponent.maxmana = 300;
     opponent.attack = 50;
     opponent.defense = 10;
   } else {
