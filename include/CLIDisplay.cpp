@@ -1,7 +1,11 @@
+#include "CLIDisplay.h"
+
 #include <iostream>
 #include <string>
 
-#include "FightSystem.cpp"
+#include "Base.h"
+#include "Character.h"
+#include "FightSystem.h"
 #include "Struct.h"
 
 using namespace std;

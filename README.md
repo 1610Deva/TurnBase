@@ -9,7 +9,8 @@ how to run:
 you can use mingw or g++
 
 ```
-g++ -o game Main.cpp
+
+g++ -o game Main.cpp include/Base.cpp include/CLIDisplay.cpp include/Character.cpp include/FightSystem.cpp
 
 then
 

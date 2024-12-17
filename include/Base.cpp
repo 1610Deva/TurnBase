@@ -1,6 +1,7 @@
+#include "Base.h"
+
 #include <cmath>
 #include <ctime>
-
 int randomInRange(int min, int max) { return min + rand() % (max - min + 1); }
 
 void clearScreen() {

@@ -1,6 +1,9 @@
+#include "FightSystem.h"
+
 #include <iostream>
 
-#include "Character.cpp"
+#include "Base.h"
+#include "Struct.h"
 
 void attack(Character& attacker, Character& defender) {
   int miss = randomInRange(0, 100);

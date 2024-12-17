@@ -1,6 +1,8 @@
+#include "Character.h"
+
 #include <iostream>
 
-#include "Base.cpp"
+#include "Base.h"
 #include "Struct.h"
 
 void RandomOpponent(Character& opponent) {
