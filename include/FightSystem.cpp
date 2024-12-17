@@ -281,7 +281,7 @@ void opponentTurn(Character& opponent, Character& player) {
   int skillchoice = randomInRange(0, 2);
 
   if (opponent.name == "Orc" && opponent.health < 30) {
-    if (choice == 0) {
+    if (choice < 2) {
       Heal(opponent);
       return;
     } else if (choice == 1) {
@@ -291,7 +291,7 @@ void opponentTurn(Character& opponent, Character& player) {
       attack(opponent, player);
       return;
     }
-  } else {
+  } else if (opponent.name == "Orc") {
     if (choice == 0) {
       critChance(opponent, player);
       return;
@@ -305,7 +305,7 @@ void opponentTurn(Character& opponent, Character& player) {
   }
 
   if (opponent.name == "Bhuto" && opponent.health < 20) {
-    if (choice == 0) {
+    if (choice < 2) {
       Heal(opponent);
       return;
     } else if (choice == 1) {
@@ -315,7 +315,7 @@ void opponentTurn(Character& opponent, Character& player) {
       attack(opponent, player);
       return;
     }
-  } else {
+  } else if (opponent.name == "Bhuto") {
     if (choice == 0) {
       critChance(opponent, player);
       return;
@@ -339,7 +339,7 @@ void opponentTurn(Character& opponent, Character& player) {
       attack(opponent, player);
       return;
     }
-  } else {
+  } else if (opponent.name == "Skeleton") {
     if (choice == 0) {
       critChance(opponent, player);
       return;
@@ -353,14 +353,14 @@ void opponentTurn(Character& opponent, Character& player) {
   }
 
   if (opponent.name == "Goblin" && opponent.health < 30) {
-    if (choice == 0) {
+    if (choice < 2) {
       Heal(opponent);
       return;
     } else {
       critChance(opponent, player);
       return;
     }
-  } else {
+  } else if (opponent.name == "Goblin") {
     if (choice == 0) {
       critChance(opponent, player);
       return;
@@ -374,7 +374,7 @@ void opponentTurn(Character& opponent, Character& player) {
   }
 
   if (opponent.name == "Fire Dragon" && opponent.health < 100) {
-    if (choice == 0) {
+    if (choice < 2) {
       Heal(opponent);
       return;
     } else {
@@ -389,7 +389,7 @@ void opponentTurn(Character& opponent, Character& player) {
         return;
       }
     }
-  } else {
+  } else if (opponent.name == "Fire Dragon") {
     if (choice == 0) {
       critChance(opponent, player);
       return;
@@ -403,7 +403,7 @@ void opponentTurn(Character& opponent, Character& player) {
   }
 
   if (opponent.name == "Kraken" && opponent.health < 100) {
-    if (choice == 0) {
+    if (choice < 2) {
       Heal(opponent);
       return;
     } else {
@@ -418,7 +418,7 @@ void opponentTurn(Character& opponent, Character& player) {
         return;
       }
     }
-  } else {
+  } else if (opponent.name == "Kraken") {
     if (choice == 0) {
       critChance(opponent, player);
       return;
@@ -432,7 +432,7 @@ void opponentTurn(Character& opponent, Character& player) {
   }
 
   if (opponent.name == "The Conqueror" && opponent.health < 200) {
-    if (choice == 0) {
+    if (choice < 2) {
       Heal(opponent);
       return;
     } else {
@@ -447,7 +447,7 @@ void opponentTurn(Character& opponent, Character& player) {
         return;
       }
     }
-  } else {
+  } else if (opponent.name == "The Conqueror") {
     if (choice == 0) {
       critChance(opponent, player);
       return;
@@ -457,6 +457,34 @@ void opponentTurn(Character& opponent, Character& player) {
     } else {
       WorldCuttingSlash(opponent, player);
       return;
+    }
+  }
+
+  if (opponent.name == "Riot" && opponent.health < 100) {
+    if (choice < 2) {
+      Heal(opponent);
+      return;
+    } else {
+      if (skillchoice == 0) {
+        critChance(opponent, player);
+        return;
+      } else if (skillchoice == 1) {
+        attack(opponent, player);
+        return;
+      } else {
+        WorldCuttingSlash(opponent, player);
+        return;
+      }
+    }
+  } else if (opponent.name == "Riot") {
+    if (choice == 0) {
+      critChance(opponent, player);
+      return;
+    } else if (choice == 1) {
+      attack(opponent, player);
+      return;
+    } else {
+      WorldCuttingSlash(opponent, player);
     }
   }
 }

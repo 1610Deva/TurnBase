@@ -45,6 +45,14 @@ void RandomOpponent(Character& opponent) {
     opponent.maxmana = 300;
     opponent.attack = 50;
     opponent.defense = 10;
+  } else if (randomenemy >= 51 && randomenemy <= 60) {
+    opponent.name = "Riot";
+    opponent.health = 300;
+    opponent.fullhealth = 300;
+    opponent.mana = 100;
+    opponent.maxmana = 100;
+    opponent.attack = 40;
+    opponent.defense = 10;
   } else {
     opponent.name = "Goblin";
     opponent.health = 100;
